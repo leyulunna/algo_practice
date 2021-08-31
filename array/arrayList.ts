@@ -81,6 +81,19 @@ class ArrayList {
         return false;
     }
 
+    /** 刪除指定索引位置的元素 */
+    public remove(index: number) {
+        if(this.size < 0 || index >= this.size) {
+            throw new Error('remove failed, required index >=  0 && index <= array size');
+        }
+        const res = this.data[index];
+        for (let i = index + 1; i < this.size; i++) {
+           this.data[i - 1] = this.data[i];
+        }
+        this.size--;
+        return res;
+    }
+
     public toString(): void {
         console.log(`Array: size: ${this.size}, capacity: ${this.capacity}`);
         for (let i = 0; i < this.size; i++) {
