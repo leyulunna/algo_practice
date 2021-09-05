@@ -22,11 +22,12 @@ class ArrayList<E> {
     }
 
     public add(index: number, el: E): void {
-        if(this.size === this.data.length) {
-            throw new Error('add failed, Array is full');
-        }
         if(index < 0 || index > this.size) {
             throw new Error('add failed, required index >=  0 && index <= array size');
+        }
+        // 擴容
+        if(this.size === this.data.length) {
+            this.resize(this.data.length * 2);
         }
         for (let i = this.size - 1; i >= index ; i--) {
             this.data[i + 1] = this.data[i];
@@ -43,10 +44,22 @@ class ArrayList<E> {
         this.add(this.size, el);
     }
 
+    public resize(newCapacity: number): void {
+        //1. 創建一個 newCapacity 的臨時數組
+        const newData: E[] = new Array(newCapacity);
+        //2. 將原本數組裡的元素 copy 至臨時數組
+        for (let i = 0; i < this.size; i++) {
+            newData[i] = this.data[i]; 
+        }
+        //3. 將原先數組指向新數組
+        this.data = newData;
+        this.capacity = newCapacity;
+    }
+
     /** 修改操作 */
     /** 將 index 索引位置的元素修改為新元素 e */
     public set(index: number, el: E):void {
-        if(this.size < 0 || index > this.size) {
+        if(index < 0 || index >= this.size) {
             throw new Error('add failed, required index >=  0 && index <= array size');
         }
         this.data[index] = el;
@@ -87,10 +100,15 @@ class ArrayList<E> {
             throw new Error('remove failed, required index >=  0 && index <= array size');
         }
         const res = this.data[index];
-        for (let i = index + 1; i <= this.size; i++) {
+        for (let i = index + 1; i < this.size; i++) {
            this.data[i - 1] = this.data[i];
         }
         this.size--;
+        this.data[this.size] = null;
+        // 如果 size 等於總容量的 1/4，則進行縮容
+        if(this.size === this.data.length / 4 && this.data.length / 2 !== 0) {
+            this.resize(this.data.length / 2);
+        }
         return res;
     }
 
@@ -123,8 +141,15 @@ class ArrayList<E> {
     }
 }
 
-const arrayList1: ArrayList<number> = new ArrayList(10);
-arrayList1.addFirst(22);
+const arrayList1: ArrayList<number> = new ArrayList(5);
+arrayList1.addLast(22);
+arrayList1.addLast(13);
+arrayList1.addLast(5);
+arrayList1.addLast(78);
+arrayList1.addLast(54);
+arrayList1.addLast(43);
+console.log(arrayList1);
 
-const arrayList2: ArrayList<string> = new ArrayList(5);
-arrayList2.addFirst('Hello');
+arrayList1.removeLast();
+arrayList1.removeLast();
+console.log(arrayList1);
