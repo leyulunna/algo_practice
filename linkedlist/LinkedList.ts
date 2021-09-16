@@ -63,7 +63,7 @@ class LinkedList<E> {
     /**
      * 修改指定索引的節點的值
      * @param index 
-     * @param e 
+     * @param el 
      */
     public set(index: number, el: E): void {
         if(index < 0 || index >= this.size) {
@@ -74,5 +74,47 @@ class LinkedList<E> {
             curr = curr.next; 
         }
         curr.e = el;
+    }
+
+    /** 
+     * 在鍊表頭添加節點
+     * @param el 新增節點需要儲存的值
+     * 
+     */
+    public addFirst(el: E): void {
+        // newNode.next = this.head;
+        this.head = new MyNode(el, this.head);
+
+        this.size++;
+    }
+
+    /**
+     * 在指定索引的位置插入新的節點
+     * @param index 需要插入的位置
+     * @param el 需要插入的值
+     */
+    public add(index: number, el: E):void {
+        //檢測索引的合法性
+        if (index < 0 || index >= this.size) {
+            throw new Error('get failed, required index >=  0 && index <= array size');
+        }
+        //插入位置 = 0，直接調用 addFirst
+        if (index === 0) {
+            this.addFirst(el);
+        } else {
+            //先創建一個新的節點
+            const newNode = new MyNode(el);
+            //找到指定位置前一個節點 pre, 從 head 開始尋找
+            let pre = this.head;
+            for (let i = 0; i < index - 1; i++) {
+               pre = pre.next;
+            }
+            //將新節點 node 的指針指向 pre.next
+            newNode.next = pre.next;
+            //pre.next 的指針指向新節點 node
+            pre.next = newNode;
+
+            this.size++;
+        }
     }
 }
