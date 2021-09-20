@@ -2,11 +2,6 @@ class MyNode<E> {
     e: E;
     next: MyNode<E>;
 
-    // public node(e: E, next: MyNode<E>) {
-    //     this.e = e;
-    //     this.next = next;
-    // }
-
     constructor(e: E, next?: MyNode<E>) {
         this.e = e;
         this.next = next;
@@ -18,13 +13,13 @@ class MyNode<E> {
 }
 
 class LinkedList<E> {
-    /** 頭節點 */
-    private head: MyNode<E>;
+    /** 虛擬頭節點 */
+    private dummyHead: MyNode<E>;
     /** 長度 */
     private size: number;
 
     constructor() {
-        this.head = null;
+        this.dummyHead = new MyNode<E>(null);
         this.size = 0;
     }
 
@@ -45,7 +40,7 @@ class LinkedList<E> {
         if(index < 0 || index >= this.size) {
             throw new Error('get failed, required index >=  0 && index <= array size');
         }
-        let curr: MyNode<E> = this.head;
+        let curr: MyNode<E> = this.dummyHead.next;
         for (let i = 0; i < index; i++) {
             curr = curr.next; 
         }
@@ -69,7 +64,7 @@ class LinkedList<E> {
         if(index < 0 || index >= this.size) {
             throw new Error('get failed, required index >=  0 && index <= array size');
         }
-        let curr: MyNode<E> = this.head;
+        let curr: MyNode<E> = this.dummyHead.next;
         for (let i = 0; i < index; i++) {
             curr = curr.next; 
         }
@@ -82,10 +77,11 @@ class LinkedList<E> {
      * 
      */
     public addFirst(el: E): void {
-        // newNode.next = this.head;
-        this.head = new MyNode(el, this.head);
+        this.add(0, el);
+    }
 
-        this.size++;
+    public addLast(el: E): void {
+        this.add(this.size, el);
     }
 
     /**
@@ -95,26 +91,72 @@ class LinkedList<E> {
      */
     public add(index: number, el: E):void {
         //檢測索引的合法性
-        if (index < 0 || index >= this.size) {
-            throw new Error('get failed, required index >=  0 && index <= array size');
+        if (index < 0 || index > this.size) {
+            throw new Error('get failed, required index >=  0 && index < size');
         }
-        //插入位置 = 0，直接調用 addFirst
-        if (index === 0) {
-            this.addFirst(el);
-        } else {
-            //先創建一個新的節點
-            const newNode = new MyNode(el);
-            //找到指定位置前一個節點 pre, 從 head 開始尋找
-            let pre = this.head;
-            for (let i = 0; i < index - 1; i++) {
-               pre = pre.next;
-            }
-            //將新節點 node 的指針指向 pre.next
-            newNode.next = pre.next;
-            //pre.next 的指針指向新節點 node
-            pre.next = newNode;
+        
+        //從 0 開始 pre 就直接是虛擬節點
+        let pre = this.dummyHead;
+        for (let i = 0; i < index; i++) {
+           pre = pre.next;
+        }
+        
+        pre.next = new MyNode(el, pre.next);
 
-            this.size++;
+        this.size++;
+        
+    }
+
+    /** 
+     * 刪除鍊表頭節點
+     * 
+     */
+    public removeFirst(): E {
+        return this.remove(0);
+    }
+
+    /**
+     * 刪除指定索引的節點，並返回刪除的節點的值
+     * @param index 需要插入的位置
+     * @return 
+     */
+    public remove(index: number): E {
+        //檢測索引的合法性
+        if (index < 0 || index >= this.size) {
+            throw new Error('get failed, required index >=  0 && index < size');
         }
+        
+        //從 0 開始 pre 就直接是虛擬節點
+        let pre = this.dummyHead;
+        for (let i = 0; i < index; i++) {
+            pre = pre.next;
+        }
+        //臨時儲存要刪除節點
+        const delNode = pre.next;
+        pre.next = delNode.next;
+        delNode.next = null;
+
+        this.size--;
+        return delNode.e;
+    }
+
+    public removeLast(): E {
+        return this.remove(this.size - 1);
+    }
+
+    /**
+     * 判斷鍊表中是否存在指定值
+     * @param e 指定值
+     * @return 
+     */
+    public contains(el: E): boolean {
+        //從真正的頭節點查找
+        let curr = this.dummyHead.next;
+        while(curr !== null) {
+            if(curr.e === el) { return true; }
+            curr = curr.next
+        }
+        //退出 while statement 表示沒有找到
+        return false;
     }
 }
