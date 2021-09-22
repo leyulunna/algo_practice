@@ -159,4 +159,13 @@ class LinkedList<E> {
         //退出 while statement 表示沒有找到
         return false;
     }
+
+    public stringifyList() {
+        let curr = this.dummyHead.next;
+        for (let i = 0; i < this.size; i++) {
+            console.log(curr.e + '=>');
+            curr = curr.next;
+        }
+        console.log('null');
+    }
 }
