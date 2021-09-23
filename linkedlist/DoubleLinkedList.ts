@@ -37,23 +37,9 @@ class DoubleLinkedList<E> {
     * @param index
     */
     public get(index: number):E {
-        if (index < 0 || index >= this.size) {
-            throw new Error('get failed, required index >=  0 && index <= array size');
-        }
-        if (index < this.size / 2) {
-            let curr = this.first;
-            for (let i = 0; i < index; i++) {
-                curr = curr.next;
-            }
-            return curr.e;
-        } else {
-            let curr = this.last;
-            // 從 0 開始算，需要減 1
-            for (let i = 0; i < this.size - index - 1; i++) {
-                curr = curr.pre;
-            }
-            return curr.e;
-        }
+       const node = this.node(index);
+       if(node === null) { throw new Error('get failed, required index >=  0 && index <= array size'); }
+       return node.e;
     }
 
     public getFirst() {
@@ -62,5 +48,32 @@ class DoubleLinkedList<E> {
 
     public getLast() {
         return this.last;
+    }
+
+    private node(index: number): MyNode<E> {
+        //改回傳 null
+        if (index < 0 || index >= this.size) {
+            return null;
+        }
+        if (index < this.size / 2) {
+            let curr = this.first;
+            for (let i = 0; i < index; i++) {
+                curr = curr.next;
+            }
+            return curr;
+        } else {
+            let curr = this.last;
+            // 從 0 開始算，需要減 1
+            for (let i = 0; i < this.size - index - 1; i++) {
+                curr = curr.pre;
+            }
+            return curr;
+        }
+    }
+
+    public set(index: number, el: E): void {
+        const node = this.node(index);
+       if(node === null) { throw new Error('get failed, required index >=  0 && index <= array size'); }
+       node.e = el;
     }
 }
