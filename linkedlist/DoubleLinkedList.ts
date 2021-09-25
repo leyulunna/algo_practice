@@ -76,4 +76,61 @@ class DoubleLinkedList<E> {
        if(node === null) { throw new Error('get failed, required index >=  0 && index <= array size'); }
        node.e = el;
     }
+
+    /**
+     * 加入錶頭節點
+     * @param el    
+     */
+    public addFirst(el: E): void {
+        const newNode = new MyNode(el);
+        //先檢查是否為空鍊表
+        if (this.first === null) {
+            this.last = newNode;
+        } else {
+            this.first.pre = newNode;
+            newNode.next = this.first;
+        }
+        this.first = newNode;
+	    this.size++;
+    }
+
+    /**
+     * 加入尾節點
+     * @param el
+     */
+    public addLast(el:E): void {
+        const newNode = new MyNode(el);
+        //先檢查是否為空鍊表
+        if(this.last === null) {
+            this.first = newNode;
+        } else {
+            newNode.pre = this.last;
+            this.last.next = newNode
+        }
+        this.last = newNode;
+        this.size++;
+    }
+
+    /**
+     * 雙向鍊表中間加入節點
+     * @param el
+     * @param index
+     */
+    public add(index: number, el: E) {
+        if (index < 0 || index > this.size) {
+            throw new Error('add failed, required index >=  0 && index < linked list size');
+        }
+        if (index === this.size) {
+            this.addLast(el);
+        } else if (index === 0) {
+            this.addFirst(el)
+        } else {
+            const oldNode = this.node(index);
+            const preNode = oldNode.pre;
+            const newNode = new MyNode(el, preNode, oldNode);
+            oldNode.pre = newNode;
+            preNode.next = newNode;
+            this.size++;
+        }
+    }
 }
