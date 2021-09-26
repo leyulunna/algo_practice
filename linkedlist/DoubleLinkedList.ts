@@ -133,4 +133,81 @@ class DoubleLinkedList<E> {
             this.size++;
         }
     }
+
+    /**
+     * 刪除錶頭節點
+     * @return 被刪除節點 
+     */
+    public removeFirst(): E {
+        if(this.first === null) {
+            throw new Error('No such element');
+        }
+        //要刪除節點先記下來
+        const e: E = this.first.e;
+        //要刪除節點的下一個節點記下來
+        const next = this.first.next;
+        //next = null, 說明鍊表只有一個節點
+        if (next === null) {
+            this.first = null;
+            this.last = null;
+        } else {
+            this.first.next = null;
+            next.pre = null;
+            this.first = next;
+        }
+        this.size--;
+        return e;
+    }
+
+    /**
+     * 刪除錶尾節點
+     * @return 被刪除節點 
+     */
+    public removeLast(): E {
+        if(this.last === null) {
+            throw new Error('No such element');
+        }
+        //要刪除節點先記下來
+        const e: E = this.last.e;
+        //要刪除節點的前一個節點記下來
+        const pre = this.last.pre;
+        //pre = null, 說明鍊表只有一個節點
+        if (pre === null) {
+            this.first = null;
+            this.last = null;
+        } else {
+            this.last.pre = null;
+            pre.next = null;
+            this.last = pre;
+        }
+        this.size--;
+        return e;
+    }
+
+    /**
+     * 刪除鍊表中間節點
+     * @return 被刪除節點
+     */
+    public remove(index: number): E {
+        if (index < 0 || index >= this.size) {
+            throw new Error('remove failed, required index >=  0 && index < linked list size');
+        }
+        if (index === this.size - 1) {
+            return this.removeLast();
+        } else if (index === 0) {
+            return this.removeFirst();
+        }
+        const delNode = this.node(index);
+        const preNode = delNode.pre;
+        const nextNode = delNode.next;
+
+        preNode.next = nextNode;
+        nextNode.pre = preNode;
+
+        delNode.next = null;
+        delNode.pre = null;
+        
+        this.size--;
+        return delNode.e;
+    }
 }
