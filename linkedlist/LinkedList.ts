@@ -12,7 +12,7 @@ class MyNode<E> {
     }
 }
 
-class LinkedList<E> {
+export class LinkedList<E> {
     /** 虛擬頭節點 */
     private dummyHead: MyNode<E>;
     /** 長度 */

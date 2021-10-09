@@ -1,4 +1,4 @@
-class ArrayList<E> {
+export class ArrayList<E> {
     private data: E[];
     private capacity: number;
     private size: number;
@@ -74,6 +74,10 @@ class ArrayList<E> {
         return this.data[index];
     }
 
+    public getLast(): E {
+        return this.get(this.size - 1);
+    }
+
     /** 查找數組元素 el 所在的索引, 如果不存在元素 el, 則返回 -1 */
     public find(el: E): number {
         for (let i = 0; i < this.size; i++) {
@@ -141,15 +145,15 @@ class ArrayList<E> {
     }
 }
 
-const arrayList1: ArrayList<number> = new ArrayList(5);
-arrayList1.addLast(22);
-arrayList1.addLast(13);
-arrayList1.addLast(5);
-arrayList1.addLast(78);
-arrayList1.addLast(54);
-arrayList1.addLast(43);
-console.log(arrayList1);
+// const arrayList1: ArrayList<number> = new ArrayList(5);
+// arrayList1.addLast(22);
+// arrayList1.addLast(13);
+// arrayList1.addLast(5);
+// arrayList1.addLast(78);
+// arrayList1.addLast(54);
+// arrayList1.addLast(43);
+// console.log(arrayList1);
 
-arrayList1.removeLast();
-arrayList1.removeLast();
-console.log(arrayList1);
+// arrayList1.removeLast();
+// arrayList1.removeLast();
+// console.log(arrayList1);
