@@ -21,9 +21,9 @@ export interface Stack<E> {
     /**
      * 出棧
      * 將棧頂的元素 el 出棧
-     * @return 
+     * @return
      */
-    pop(): void;
+    pop(): E;
 
     /**
      * 查看棧頂的元素

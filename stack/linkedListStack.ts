@@ -1,7 +1,7 @@
 import { Stack } from './stack';
 import { LinkedList } from '../linkedlist/LinkedList';
 
-class LinkedListStack<E> implements Stack<E> {
+export class LinkedListStack<E> implements Stack<E> {
     private linkedList: LinkedList<E>;
 
     constructor() {

@@ -1,10 +1,10 @@
 import { Stack } from './stack';
 import { ArrayList } from '../array/arrayList';
 
-class DynamicArrayStack<E> implements Stack<E> {
+export class DynamicArrayStack<E> implements Stack<E> {
     private data: ArrayList<E>;
     
-    constructor(capacity: number) {
+    constructor(capacity?: number) {
         this.data = new ArrayList(capacity);
     }
 
@@ -20,8 +20,8 @@ class DynamicArrayStack<E> implements Stack<E> {
        this.data.addLast(el);
     }
 
-    pop(): void {
-        this.data.removeLast();
+    pop(): E {
+        return this.data.removeLast();
     }
 
     peek(): E {

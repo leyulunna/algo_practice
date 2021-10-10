@@ -1,6 +1,6 @@
 import { Stack } from './stack';
 
-class ArrayStack<E> implements Stack<E> {
+export class ArrayStack<E> implements Stack<E> {
     private data: E[];
     private size: number;
 

@@ -122,8 +122,8 @@ export class ArrayList<E> {
     }
 
     /** 刪除最後一個元素 */
-    public removeLast(): void {
-        this.remove(this.size - 1);
+    public removeLast(): E {
+        return this.remove(this.size - 1);
     }
 
     /** 刪除指定元素 */
