@@ -1,8 +1,6 @@
 import { DynamicArrayStack } from './../stack/dynamicArrayStack';
 import { Stack } from './../stack/stack';
 
-// 1. use native array []
-
 class ValidParentheses {
   public isValid(str: string): boolean {
     if(str === null) return true;
