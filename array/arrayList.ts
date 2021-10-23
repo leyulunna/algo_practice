@@ -74,6 +74,10 @@ export class ArrayList<E> {
         return this.data[index];
     }
 
+    public getFirst(): E {
+        return this.get(0);
+    }
+
     public getLast(): E {
         return this.get(this.size - 1);
     }
@@ -117,8 +121,8 @@ export class ArrayList<E> {
     }
 
     /** 刪除第一個元素 */
-    public removeFirst(): void {
-        this.remove(0);
+    public removeFirst(): E {
+        return this.remove(0);
     }
 
     /** 刪除最後一個元素 */
